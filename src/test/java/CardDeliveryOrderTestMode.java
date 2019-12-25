@@ -1,4 +1,8 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
@@ -23,6 +27,14 @@ class CardDeliveryOrderTestMode {
     private static String invalid = ".input_invalid .input__sub";
     private static LocalDate localDate = LocalDate.now();
 
+    @BeforeAll
+    static void setUpAll(){
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+    @AfterAll
+    static void tearDownAll(){
+        SelenideLogger.removeListener("allure");
+    }
 
     static void datePicker() {
         $(dateInput).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
